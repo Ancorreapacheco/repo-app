@@ -4,7 +4,10 @@ const theme = {
     textSecondary: '#586069',
     primary: '#0366d6',
     secundary: '#24292e',
-    white: '#ffffff'
+    white: '#ffffff',
+    background: '#e1e4e8',
+    btn: '#0366d6'
+    
   },
   fontSizes: {
     body: 14,

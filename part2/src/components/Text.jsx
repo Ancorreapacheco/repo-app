@@ -27,7 +27,7 @@ const styles= StyleSheet.create({
 
 const Text = ({ theming , style, ...props }) => {
 
-  let textStyle 
+  let textStyle
   switch (theming) {
     case 'primary':
       textStyle = styles.primary
@@ -42,6 +42,8 @@ const Text = ({ theming , style, ...props }) => {
       textStyle = style
       break;
   }
+
+  textStyle= [textStyle, style]
 
   return <NativeText style={textStyle} { ...props } />
 

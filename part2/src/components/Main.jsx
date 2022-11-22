@@ -3,12 +3,13 @@
 import AppBar from './AppBar'
 import { StyleSheet, View } from 'react-native'
 import RepositoryList from './RepositoryList'
+import theme from '../utils/theme'
 
 const styles = StyleSheet.create({
-	container: {
-		/* marginTop: Constants.statusBarHeight, */
+	container: {		
 		flexGrow: 1,
 		flexShrink: 1,
+    backgroundColor: theme.colors.background
 	},
 })
 
