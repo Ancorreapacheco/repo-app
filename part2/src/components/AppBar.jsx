@@ -1,24 +1,31 @@
-import { View, StyleSheet, Pressable } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
 import theme from '../utils/theme'
 import Text from './Text'
 
+import { Link } from 'react-router-native'
+
 const styles = StyleSheet.create({
 	container: {
 		paddingTop: Constants.statusBarHeight,
-		backgroundColor: theme.colors.secundary,
-		height: 50,
+		backgroundColor: theme.colors.secundary,		
+    flexDirection: 'row'
 	},
-	// ...
+	
 })
 
 const AppBar = () => {
-	return (
+	return ( 
 		<View style={styles.container}>
-			<Pressable>
-				<Text theming='tab'>Repositories</Text>
-			</Pressable>
+      <Text theming='tab'>Repositories</Text>
+      <Link> Some Route</Link>
 		</View>
+    //TODO fixing link and router exercise
+
+
+    
+    
+      
 	)
 }
 
