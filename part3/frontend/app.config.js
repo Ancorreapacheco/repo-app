@@ -1,5 +1,7 @@
-{
-  "expo": {
+import 'dotenv/config';
+
+export default {
+  
     "name": "repo-app",
     "slug": "repo-app",
     "version": "1.0.0",
@@ -28,6 +30,10 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    extra:{
+      env: process.env.ENV,
+      uri: process.env.APOLLO_URI,
     }
-  }
+  
 }
