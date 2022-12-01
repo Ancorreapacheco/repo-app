@@ -2,7 +2,8 @@ import Text from "./Text";
 import FormikTextInput from "./FormikTextInput";
 import {  View, Pressable, StyleSheet } from "react-native";
 import { Formik } from "formik"; //Using formik for form statge management and validations with yulp
-import * as yup from 'yup'
+import * as yup from 'yup' //For schema validation
+import useSignIn from "../hooks/useSignIn";
 
 
 import theme from "../utils/theme";
@@ -56,12 +57,21 @@ const SigInForm = ({onSubmit}) => {
     </View>
   )
 }
+//TODO 10.14
 
 const SignIn = () => {
 
-  const login = (values) => {
-    console.log('Clickme')
-    console.log(values)
+  const [ signIn ] = useSignIn()
+
+  const login =  async (values) => {
+    const {username, password} = values
+
+    try {
+      const {data} = await signIn({username, password})      
+      console.log(data)
+    } catch (error) {
+      console.log(error)
+    }
   }
   return (
     
