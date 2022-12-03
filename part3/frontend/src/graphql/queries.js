@@ -13,6 +13,15 @@ export const GET_REPOSITORIES = gql`
 	}
   ${F_REPOSITORIES_DETAILS}
 `
+
+export const ME = gql`
+query Me{
+  me {
+    id
+    username
+  }
+}
+`
 /* export const GET_REPOSITORIES = gql`
 	query Repositories {
 		repositories {

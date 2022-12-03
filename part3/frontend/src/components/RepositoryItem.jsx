@@ -79,7 +79,7 @@ const RepositoyDetail = ({detail, value}) => {
 }
 
 const RepositoryItem = ({ repository }) => {
-  console.log(repository.ownerAvatarUrl)
+  
 	return (
 		<View style={styles.card}>
 			<View style={styles.card__header}>
