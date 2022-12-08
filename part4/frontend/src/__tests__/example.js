@@ -53,9 +53,10 @@ describe('example', () => {
   //Query results
   it('renders a greeting message based on the name prop',() => {
 
-    const { debug, getByText } = render(<Greeting name='Andres'/>)
+    const { getByText } = render(<Greeting name='Andres'/>)
     
-    debug()
+    //const { debug, getByText } = render(<Greeting name='Andres'/>)
+    //debug()
     
     expect(getByText('Hello Andres')).toBeDefined()
 

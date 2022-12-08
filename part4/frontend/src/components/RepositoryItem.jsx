@@ -81,7 +81,7 @@ const RepositoyDetail = ({detail, value}) => {
 const RepositoryItem = ({ repository }) => {
   
 	return (
-		<View style={styles.card}>
+		<View style={styles.card} testID='repositoryItem'>
 			<View style={styles.card__header}>
         <View style={styles.card_imgContainer}>
           <Image style={styles.card__img} source={{uri: repository.ownerAvatarUrl}}/>

@@ -4,12 +4,7 @@ import RepositoryItem from "./RepositoryItem";
 import Text from "./Text";
 
 //Using fetch throug a customhook
-//import useRepositories from "../hooks/useRepositories";
-
-//Using Graphql
-import { useQuery } from "@apollo/client";
-import { GET_REPOSITORIES } from "../graphql/queries";
-
+import useRepositories from "../hooks/useRepositories";
 
 const styles= StyleSheet.create({
   separator:{
@@ -18,6 +13,27 @@ const styles= StyleSheet.create({
 })
 
 const ItemSeparator = () => <View style={styles.separator}/>
+
+export const RepositoryListContainer  = ({ repositories }) => {
+    
+  const repositoryNodes = repositories
+  ? repositories.data.repositories.edges.map(edge => edge.node)
+  : []  
+  
+  const renderItem = ({item}) => <RepositoryItem repository={item}/>
+  
+  return(
+    <FlatList
+      data={repositoryNodes}
+      
+      ItemSeparatorComponent={ItemSeparator}
+      renderItem= {renderItem}
+      keyExtractor={item => item.id}    
+    />
+  )
+  
+
+}
 
 const RepositoryList = () => {
 
@@ -31,35 +47,24 @@ const RepositoryList = () => {
       <Text> Cargando Datos</Text>
     </View>)
   } */
-
+ 
   //Using Graphql
-  const repositories = useQuery(GET_REPOSITORIES,{
-    fetchPolicy:'cache-and-network'
-  })  
+  const {repositories} = useRepositories()
+  
    
   if(repositories.loading){
     return (<View>
       <Text> Cargando Datos</Text>
     </View>)
     
-  }
-  const repositoryNodes = repositories
-  ? repositories.data.repositories.edges.map(edge => edge.node)
-  : []  
-  
+  }  
   
   //------End Graphql-----------  
+
+  return <RepositoryListContainer repositories={repositories}/>
   
-  const renderItem = ({item}) => <RepositoryItem repository={item}/>
-  return(
-    <FlatList
-      data={repositoryNodes}
-      
-      ItemSeparatorComponent={ItemSeparator}
-      renderItem= {renderItem}
-      keyExtractor={item => item.id}    
-    />
-  )
+  
+  
 }
 
 export default RepositoryList
