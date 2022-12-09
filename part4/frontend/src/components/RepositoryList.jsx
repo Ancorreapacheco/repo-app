@@ -14,6 +14,7 @@ const styles= StyleSheet.create({
 
 const ItemSeparator = () => <View style={styles.separator}/>
 
+//For testing, I extracted the pure code in its own component (container)
 export const RepositoryListContainer  = ({ repositories }) => {
     
   const repositoryNodes = repositories

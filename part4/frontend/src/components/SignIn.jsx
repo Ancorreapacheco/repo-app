@@ -58,14 +58,31 @@ const SigInForm = ({ onSubmit }) => {
 		</View>
 	)
 }
-//TODO 10.14
+
+//For testing, I extracted the pure code in its own component (container)
+export const SignInContainer = ({login}) => {
+
+  return (
+		<View>
+			<Formik
+				initialValues={initialValues}
+				validationSchema={validationSchema}
+				onSubmit={login}
+			>
+				{({ handleSubmit }) => <SigInForm onSubmit={handleSubmit} />}
+			</Formik>
+		</View>
+	)
+}
+
 
 const SignIn = () => {
+  
+  const [signIn, result] = useSignIn()	  
+  
 	const navigate = useNavigate()
-
-	const [signIn, result] = useSignIn()	
-
-	const login = async (values) => {
+	
+  const login = async (values) => {
 		const { username, password } = values
 
 		try {      
@@ -84,15 +101,7 @@ const SignIn = () => {
 	}, [result])
 
 	return (
-		<View>
-			<Formik
-				initialValues={initialValues}
-				validationSchema={validationSchema}
-				onSubmit={login}
-			>
-				{({ handleSubmit }) => <SigInForm onSubmit={handleSubmit} />}
-			</Formik>
-		</View>
+		<SignInContainer login={login}/>
 	)
 }
 
