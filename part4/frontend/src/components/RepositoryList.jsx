@@ -1,7 +1,8 @@
 
-import { FlatList, View, StyleSheet } from "react-native";
+import { FlatList, View, StyleSheet, Pressable } from "react-native";
 import RepositoryItem from "./RepositoryItem";
 import Text from "./Text";
+import { useNavigate } from 'react-router-native'
 
 //Using fetch throug a customhook
 import useRepositories from "../hooks/useRepositories";
@@ -16,23 +17,34 @@ const ItemSeparator = () => <View style={styles.separator}/>
 
 //For testing, I extracted the pure code in its own component (container)
 export const RepositoryListContainer  = ({ repositories }) => {
+
+  const navigate = useNavigate()
+
+  const onClickRepository= (id) => {    
+    navigate(`/repository/${id}`)
+  }
     
   const repositoryNodes = repositories
   ? repositories.data.repositories.edges.map(edge => edge.node)
   : []  
   
-  const renderItem = ({item}) => <RepositoryItem repository={item}/>
+  const renderItem = ({item}) => {
+    return(
+    <Pressable onPress={() => onClickRepository(item.id)}> 
+      <RepositoryItem repository={item}/>
+    </Pressable> 
+
+    )
+  }   
   
   return(
     <FlatList
-      data={repositoryNodes}
-      
+      data={repositoryNodes}      
       ItemSeparatorComponent={ItemSeparator}
       renderItem= {renderItem}
       keyExtractor={item => item.id}    
     />
-  )
-  
+  ) 
 
 }
 

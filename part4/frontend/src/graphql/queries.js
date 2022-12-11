@@ -22,6 +22,16 @@ query Me{
   }
 }
 `
+
+export const GET_REPOSITORY_BY_ID = gql`
+  query get_repository_by_id($repositoryId: ID!) {
+    repository(id: $repositoryId) {
+      ...RepositoriesDetails
+    }
+  }
+  ${F_REPOSITORIES_DETAILS}
+
+  `
 /* export const GET_REPOSITORIES = gql`
 	query Repositories {
 		repositories {
