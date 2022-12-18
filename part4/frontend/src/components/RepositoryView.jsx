@@ -5,7 +5,7 @@ import { format } from 'date-fns'
 
 //Apollo Graphql client
 import { useQuery } from '@apollo/client'
-import { GET_REPOSITORY_BY_ID } from '../graphql/queries'
+import { GET_REPOSITORY_BY_ID, GET_REPOSITORY_REVIEW_BY_ID } from '../graphql/queries'
 
 // For use url native in IOS and Android
 //npx expo install expo-linking
@@ -92,92 +92,22 @@ const ReviewItem = ({ item }) => {
 
 const ItemSeparator = () => <View style={styles.separator}/>
 
-
 export const RepositoryView = () => {
   
-  const params = useParams()
-  
+  const params = useParams()  
   
   const repository = useQuery(GET_REPOSITORY_BY_ID,{
     variables: {"repositoryId": params.id },
     fetchPolicy:'cache-and-network'
   })
-
-  const reviews = {
-    "data": {
-      "repository": {
-        "id": "jaredpalmer.formik",
-        "fullName": "jaredpalmer/formik",
-        "reviews": {
-          "edges": [
-            {
-              "node": {
-                "id": "753f3e99-e73a-43a3-9a50-b30d7727c0eb.jaredpalmer.formik",
-                "text": "Lorem ipsum dolor sit amet, per brute apeirian ei. Malis facilisis vel ex, ex vivendo signiferumque nam, nam ad natum electram constituto. Causae latine at sea, ex nec ullum ceteros, est ut dicant splendide. Omnis electram ullamcorper est ut.",
-                "rating": 96,
-                "createdAt": "2022-12-07T05:35:37.618Z",
-                "user": {
-                  "id": "753f3e99-e73a-43a3-9a50-b30d7727c0eb",
-                  "username": "leeroyjenkins"
-                }
-              }
-            },
-            {
-              "node": {
-                "id": "9b9d927e-2ee9-4f93-b96b-c8f677c63a5f.jaredpalmer.formik",
-                "text": "Lorem ipsum dolor sit amet, per brute apeirian ei. Malis facilisis vel ex, ex vivendo signiferumque nam, nam ad natum electram constituto. Causae latine at sea, ex nec ullum ceteros, est ut dicant splendide. Omnis electram ullamcorper est ut.",
-                "rating": 89,
-                "createdAt": "2022-12-07T06:35:37.618Z",
-                "user": {
-                  "id": "9b9d927e-2ee9-4f93-b96b-c8f677c63a5f",
-                  "username": "johndoe"
-                }
-              }
-            },
-            {
-              "node": {
-                "id": "cff8872a-8ff5-4092-ac2f-d79e65f18aa2.jaredpalmer.formik",
-                "text": "Lorem ipsum dolor sit amet, per brute apeirian ei. Malis facilisis vel ex, ex vivendo signiferumque nam, nam ad natum electram constituto. Causae latine at sea, ex nec ullum ceteros, est ut dicant splendide. Omnis electram ullamcorper est ut.",
-                "rating": 100,
-                "createdAt": "2022-12-07T07:35:37.618Z",
-                "user": {
-                  "id": "cff8872a-8ff5-4092-ac2f-d79e65f18aa2",
-                  "username": "elina"
-                }
-              }
-            },
-            {
-              "node": {
-                "id": "1b10e4d8-57ee-4d00-8886-e4a049d7ff8f.jaredpalmer.formik",
-                "text": "Lorem ipsum dolor sit amet, per brute apeirian ei. Malis facilisis vel ex, ex vivendo signiferumque nam, nam ad natum electram constituto. Causae latine at sea, ex nec ullum ceteros, est ut dicant splendide. Omnis electram ullamcorper est ut.",
-                "rating": 70,
-                "createdAt": "2022-12-07T08:35:37.618Z",
-                "user": {
-                  "id": "1b10e4d8-57ee-4d00-8886-e4a049d7ff8f",
-                  "username": "matti"
-                }
-              }
-            },
-            {
-              "node": {
-                "id": "bbe42984-051b-4a01-b45d-b8d29c32200c.jaredpalmer.formik",
-                "text": "Lorem ipsum dolor sit amet, per brute apeirian ei. Malis facilisis vel ex, ex vivendo signiferumque nam, nam ad natum electram constituto. Causae latine at sea, ex nec ullum ceteros, est ut dicant splendide. Omnis electram ullamcorper est ut.",
-                "rating": 95,
-                "createdAt": "2022-12-07T09:35:37.618Z",
-                "user": {
-                  "id": "bbe42984-051b-4a01-b45d-b8d29c32200c",
-                  "username": "kalle"
-                }
-              }
-            }
-          ]
-        }
-      }
-    }
-  }
-
-  const reviewsNodes = reviews.data.repository.reviews.edges.map(node=> node.node)
+  const repository_reviews = useQuery(GET_REPOSITORY_REVIEW_BY_ID,{
+    variables: {"repositoryId": params.id },
+    fetchPolicy:'cache-and-network'
+  })
   
+  const reviewsNodes = repository_reviews.data
+    ? repository_reviews.data.repository.reviews.edges.map(node=> node.node)
+    : []
 
   if(repository.loading){
     return (<View>
