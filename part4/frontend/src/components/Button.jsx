@@ -12,7 +12,14 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     paddingHorizontal: 12,  
     overflow: "hidden",
-    marginHorizontal:30  
+    marginHorizontal:30,
+    height:40,
+    fontSize: theme.fontSizes.heading,
+    fontWeight: theme.fontWeights.bold  
+  },
+  btn__back:{
+    backgroundColor: theme.colors.white,
+    paddingBottom:10
   }
 
 })
@@ -21,7 +28,7 @@ const Button = ({ onPress, label, style }) => {
 
   const btnStyle = [styles.btn , style]
 	return (
-		<Pressable onPress={onPress}>
+		<Pressable onPress={onPress} style={styles.btn__back}>
 			<Text style={btnStyle}> {label} </Text>
 		</Pressable>
 	)
