@@ -5,9 +5,11 @@ import theme from '../utils/theme'
 
 //Components
 import RepositoryList from './RepositoryList'
-import { RepositoryView } from './RepositoryView'
+import RepositoryView from './RepositoryView'
 import AppBar from './AppBar'
 import SignIn from './SignIn'
+import CreateReview from './CreateReview'
+
 
 //Routing
 import { Route, Routes, Navigate,  } from 'react-router-native';
@@ -29,6 +31,7 @@ const Main = () => {
       <AppBar />
       <Routes>
         <Route path='/repository/:id' element={<RepositoryView/>} />
+        <Route path="/create_review" element={<CreateReview />} exact />
         <Route path="/signin" element={<SignIn />} exact />
         <Route path="/" element={<RepositoryList />} exact />
         <Route path="*" element={<Navigate to="/" replace />} />

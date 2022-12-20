@@ -92,7 +92,7 @@ const ReviewItem = ({ item }) => {
 
 const ItemSeparator = () => <View style={styles.separator}/>
 
-export const RepositoryView = () => {
+const RepositoryView = () => {
   
   const params = useParams()  
   
@@ -126,3 +126,5 @@ export const RepositoryView = () => {
     />   
   )
 }
+
+export default RepositoryView

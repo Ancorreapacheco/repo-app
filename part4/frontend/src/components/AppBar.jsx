@@ -5,6 +5,7 @@ import Text from './Text'
 import { useQuery, useApolloClient } from '@apollo/client'
 import { ME } from '../graphql/queries'
 import useAuthStorage from '../hooks/useAuthStorage'
+import { useNavigate } from 'react-router-native'
 
 
 import { Link } from 'react-router-native'
@@ -27,6 +28,7 @@ const AppBar = () => {
 
   const authStorage = useAuthStorage()
   const apolloClient = useApolloClient()
+  const navigate= useNavigate()
 
   const {data} = useQuery(ME,{
     fetchPolicy:'cache-and-network'
@@ -38,8 +40,8 @@ const AppBar = () => {
   const logOut = async () => {    
     await authStorage.removeAccessToken()
     await apolloClient.resetStore()
+    navigate('/')
   }
-
   
 
   
@@ -53,6 +55,12 @@ const AppBar = () => {
         ? <Link to='/signin'> 
             <Text theming='tab'>Sign In</Text> 
           </Link> : null		
+        }
+        {userSigned === true 
+        ? <Pressable onPress={() => navigate('/create_review')}>
+            <Text theming='tab'>Create Review</Text>
+          </Pressable>
+          : null
         }
         {userSigned === true 
         ? <Pressable onPress={logOut}>
