@@ -4,6 +4,10 @@ import React from 'react'
 import FormikTextInput from './FormikTextInput'
 import { Formik } from 'formik'
 import * as yup from 'yup' //For schema validation
+import useSignUp from '../hooks/useSignUp'
+import useSignIn from '../hooks/useSignIn'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-native'
 
 const styles = StyleSheet.create({
 	form: {
@@ -81,12 +85,35 @@ const SignUpFormContainer = ({ signUp }) => {
 //TODO: signup mutation implementation
 const SignUp = () => {
 
-  const signup = () => {
+  const [signUp ] = useSignUp()
+  const [signIn, signInResult] = useSignIn()
+  const navigate = useNavigate()
+
+  const submitSignup = async (values) => {
     console.log('signing up')
+    const {password, username} = {...values}
+
+    try {
+      await signUp({password, username})
+      await signIn({ username, password })
+    } catch (error) {
+      console.log(error)
+    }
   }
+
+  useEffect(() => {
+		if (signInResult.data) {			
+			navigate('/')
+			return
+		}    
+	}, [signInResult])
+
+
+
+
   return (
     <View>
-      <SignUpFormContainer signUp={signup}/>
+      <SignUpFormContainer signUp={submitSignup}/>
     </View>
   )
 }
