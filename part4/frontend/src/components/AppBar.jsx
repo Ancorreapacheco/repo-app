@@ -56,6 +56,11 @@ const AppBar = () => {
             <Text theming='tab'>Sign In</Text> 
           </Link> : null		
         }
+        {userSigned !== true 
+        ? <Link to='/signup'> 
+            <Text theming='tab'>Sign Up</Text> 
+          </Link> : null		
+        }
         {userSigned === true 
         ? <Pressable onPress={() => navigate('/create_review')}>
             <Text theming='tab'>Create Review</Text>

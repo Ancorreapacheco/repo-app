@@ -13,6 +13,7 @@ import CreateReview from './CreateReview'
 
 //Routing
 import { Route, Routes, Navigate,  } from 'react-router-native';
+import SignUp from './SignUp'
 
 
 //Styles
@@ -32,6 +33,7 @@ const Main = () => {
       <Routes>
         <Route path='/repository/:id' element={<RepositoryView/>} />
         <Route path="/create_review" element={<CreateReview />} exact />
+        <Route path="/signup" element={<SignUp />} exact />
         <Route path="/signin" element={<SignIn />} exact />
         <Route path="/" element={<RepositoryList />} exact />
         <Route path="*" element={<Navigate to="/" replace />} />
