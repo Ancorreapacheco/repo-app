@@ -24,7 +24,8 @@ export const RepositoryListContainer = ({
 	setOrder,
 	order,
   setSearchQuery,
-  searchQuery
+  searchQuery,
+  onEndReach
 }) => {
 	const navigate = useNavigate()
 
@@ -33,7 +34,7 @@ export const RepositoryListContainer = ({
 	}
 
 	const repositoryNodes = repositories
-		? repositories.data.repositories.edges.map((edge) => edge.node)
+		? repositories.edges.map((edge) => edge.node)
 		: []
 
 	const renderItem = ({ item }) => {
@@ -69,7 +70,11 @@ export const RepositoryListContainer = ({
 				data={repositoryNodes}
 				ItemSeparatorComponent={ItemSeparator}
 				renderItem={renderItem}
-				keyExtractor={(item) => item.id}        
+				keyExtractor={(item) => item.id}
+        onEndReached={onEndReach}
+        onEndReachedThreshold={0.5}   
+        contentContainerStyle={{ paddingBottom: 500 }}
+            
 			/>
 		</View>
 	)
@@ -78,8 +83,7 @@ export const RepositoryListContainer = ({
 const RepositoryList = () => {
 	const [order, setOrder] = useState("1")
   const [searchQuery, setSearchQuery] = useState('')
-  const [debounceSearchQuery] = useDebounce(searchQuery,1000) //for delay the query
-  
+  const [debounceSearchQuery] = useDebounce(searchQuery,1000) //for delay the query  
   
   const orders= {
     1:{
@@ -98,10 +102,17 @@ const RepositoryList = () => {
 
   const filters= orders[order]
   filters.searchKeyword= debounceSearchQuery
+  filters.first= 8
 
-	const { repositories } = useRepositories(filters)
+	const { repositories, loading, fetchMore } = useRepositories(filters)
+  
 
-	if (repositories.loading) {
+  const onEndReach = () => {
+    console.log('reached the end')
+    fetchMore()
+  }
+
+	if (loading) {
 		return (
 			<View>
 				<Text> Cargando Datos</Text>
@@ -116,6 +127,7 @@ const RepositoryList = () => {
 			order={order}
       setSearchQuery={setSearchQuery}
       searchQuery={searchQuery}
+      onEndReach={onEndReach}
 		/>
 	)
 }
