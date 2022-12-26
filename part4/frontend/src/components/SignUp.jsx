@@ -82,7 +82,7 @@ const SignUpFormContainer = ({ signUp }) => {
 		</View>
 	)
 }
-//TODO: signup mutation implementation
+
 const SignUp = () => {
 
   const [signUp ] = useSignUp()

@@ -3,6 +3,8 @@ import RepositoryItem from './RepositoryItem'
 import Text from './Text'
 import { useNavigate } from 'react-router-native'
 import { Picker } from '@react-native-picker/picker'
+import { Searchbar } from 'react-native-paper';
+import { useDebounce } from "use-debounce";
 
 //Using fetch throug a customhook
 import useRepositories from '../hooks/useRepositories'
@@ -21,6 +23,8 @@ export const RepositoryListContainer = ({
 	repositories,
 	setOrder,
 	order,
+  setSearchQuery,
+  searchQuery
 }) => {
 	const navigate = useNavigate()
 
@@ -38,9 +42,7 @@ export const RepositoryListContainer = ({
 				<RepositoryItem repository={item} />
 			</Pressable>
 		)
-	}
-
-  
+	} 
 
   const PickerComponent= () => {
     return(<Picker
@@ -53,10 +55,16 @@ export const RepositoryListContainer = ({
     </Picker>)
   }
 
+  const onChangeSearch = query => setSearchQuery(query)
+
 	return (
 		<View>
 			<PickerComponent/>
-
+      <Searchbar
+      placeholder="Search"
+      onChangeText={onChangeSearch}
+      value={searchQuery}
+    />
 			<FlatList
 				data={repositoryNodes}
 				ItemSeparatorComponent={ItemSeparator}
@@ -69,10 +77,14 @@ export const RepositoryListContainer = ({
 
 const RepositoryList = () => {
 	const [order, setOrder] = useState("1")
+  const [searchQuery, setSearchQuery] = useState('')
+  const [debounceSearchQuery] = useDebounce(searchQuery,1000) //for delay the query
+  
+  
   const orders= {
     1:{
       orderBy: 'CREATED_AT',
-      orderDirection: 'DESC',
+      orderDirection: 'DESC',      
     },
     2: {
       orderBy: 'RATING_AVERAGE',
@@ -83,8 +95,11 @@ const RepositoryList = () => {
       orderDirection: 'ASC',
     }
   }
-  
-	const { repositories } = useRepositories(orders[order])
+
+  const filters= orders[order]
+  filters.searchKeyword= debounceSearchQuery
+
+	const { repositories } = useRepositories(filters)
 
 	if (repositories.loading) {
 		return (
@@ -99,6 +114,8 @@ const RepositoryList = () => {
 			repositories={repositories}
 			setOrder={setOrder}
 			order={order}
+      setSearchQuery={setSearchQuery}
+      searchQuery={searchQuery}
 		/>
 	)
 }
