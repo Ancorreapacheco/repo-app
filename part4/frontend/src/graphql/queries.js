@@ -40,6 +40,35 @@ export const GET_REPOSITORY_BY_ID = gql`
   `
 
 export const GET_REPOSITORY_REVIEW_BY_ID = gql`
+  query get_repository_review_by_id($repositoryId: ID!, $first: Int, $after: String) {
+    repository(id: $repositoryId) {
+      id
+      fullName
+      reviews (first: $first, after: $after) {
+        edges {
+          node {
+            id
+            text
+            rating
+            createdAt
+            user {
+              id
+              username
+            }
+          }
+          cursor
+        }
+        pageInfo {
+          startCursor
+          endCursor
+          hasNextPage
+        }
+      }
+    }
+  }
+  
+  `
+/* export const GET_REPOSITORY_REVIEW_BY_ID = gql`
   query get_repository_review_by_id($repositoryId: ID!) {
     repository(id: $repositoryId) {
       id
@@ -61,25 +90,5 @@ export const GET_REPOSITORY_REVIEW_BY_ID = gql`
     }
   }
   
-  `
+  ` */
 
-/* export const GET_REPOSITORIES = gql`
-	query Repositories {
-		repositories {
-			edges {
-				node {
-					id
-					fullName
-					description
-					language
-					forksCount
-					stargazersCount
-					ratingAverage
-					reviewCount
-					ownerAvatarUrl
-				}
-			}
-		}
-	}
-`
- */

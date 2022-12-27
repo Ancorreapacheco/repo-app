@@ -100,14 +100,34 @@ const RepositoryView = () => {
     variables: {"repositoryId": params.id },
     fetchPolicy:'cache-and-network'
   })
-  const repository_reviews = useQuery(GET_REPOSITORY_REVIEW_BY_ID,{
-    variables: {"repositoryId": params.id },
+
+  const variables = {
+    repositoryId: params.id,
+    first: 3 
+  }
+  const {data, loading, fetchMore} = useQuery(GET_REPOSITORY_REVIEW_BY_ID,{
+    variables,
     fetchPolicy:'cache-and-network'
   })
   
-  const reviewsNodes = repository_reviews.data
-    ? repository_reviews.data.repository.reviews.edges.map(node=> node.node)
+  const reviewsNodes = data
+    ? data.repository.reviews.edges.map(node=> node.node)
     : []
+  
+  const onEndReach = () => {
+    
+    const canFetchMore = !loading && data?.repository.reviews.pageInfo.hasNextPage;  
+
+    if (!canFetchMore) {
+      return;
+    }    
+    fetchMore({
+      variables: {
+        after: data.repository.reviews.pageInfo.endCursor,
+        ...variables,
+      },
+    });
+  }
 
   if(repository.loading){
     return (<View>
@@ -122,7 +142,8 @@ const RepositoryView = () => {
       ItemSeparatorComponent={ItemSeparator}
       renderItem= {ReviewItem}
       keyExtractor={item => item.id} 
-      ListHeaderComponent={() => <RepositoryInfo repository={repository}/>}    
+      ListHeaderComponent={() => <RepositoryInfo repository={repository}/>}
+      onEndReached={onEndReach}    
     />   
   )
 }

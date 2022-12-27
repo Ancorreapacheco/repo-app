@@ -107,8 +107,7 @@ const RepositoryList = () => {
 	const { repositories, loading, fetchMore } = useRepositories(filters)
   
 
-  const onEndReach = () => {
-    console.log('reached the end')
+  const onEndReach = () => {    
     fetchMore()
   }
 
