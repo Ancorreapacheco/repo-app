@@ -38,9 +38,9 @@ const AppBar = () => {
   
 
   const logOut = async () => {    
+    navigate('/')
     await authStorage.removeAccessToken()
     await apolloClient.resetStore()
-    navigate('/')
   }
   
 
@@ -64,6 +64,12 @@ const AppBar = () => {
         {userSigned === true 
         ? <Pressable onPress={() => navigate('/create_review')}>
             <Text theming='tab'>Create Review</Text>
+          </Pressable>
+          : null
+        }
+        {userSigned === true 
+        ? <Pressable onPress={() => navigate('/my_reviews')}>
+            <Text theming='tab'>My reviews</Text>
           </Pressable>
           : null
         }

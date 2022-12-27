@@ -13,6 +13,7 @@ const httpLink = createHttpLink({
   uri: apolloUri,
 });
 
+//typepolicies specified for fethmore queries pagination
 const cache = new InMemoryCache({
   typePolicies: {
     Query: {

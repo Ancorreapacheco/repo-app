@@ -1,8 +1,6 @@
 import React from 'react'
 import { useParams } from 'react-router-native'
 
-import { format } from 'date-fns'
-
 //Apollo Graphql client
 import { useQuery } from '@apollo/client'
 import { GET_REPOSITORY_BY_ID, GET_REPOSITORY_REVIEW_BY_ID } from '../graphql/queries'
@@ -17,6 +15,7 @@ import RepositoryItem from "./RepositoryItem";
 import Button from './Button'
 import Text from './Text'
 import { View, StyleSheet, FlatList } from 'react-native'
+import ReviewItemCard from './ReviewItemCard'
 
 // Theme
 import theme from '../utils/theme'
@@ -73,23 +72,6 @@ const RepositoryInfo = ({ repository }) => {
 
 }
 
-const ReviewItem = ({ item }) => {
-
-  const date= format(new Date(item.createdAt),"dd.MM.yyyy")
-  
-  
-  return (<View style={styles.card__container}>
-    <View style={styles.card__ratingContainer}>
-      <Text theming='secundary' style={styles.card__ratingText}> {item.rating} </Text>
-    </View>
-    <View style={styles.card_content}>
-      <Text theming='primary'> {item.user.username} </Text>
-      <Text theming='secundary'> {date} </Text>
-      <Text> {item.text} </Text>
-    </View>
-  </View>)
-}
-
 const ItemSeparator = () => <View style={styles.separator}/>
 
 const RepositoryView = () => {
@@ -140,7 +122,7 @@ const RepositoryView = () => {
     <FlatList
       data={reviewsNodes}      
       ItemSeparatorComponent={ItemSeparator}
-      renderItem= {ReviewItem}
+      renderItem= {ReviewItemCard}
       keyExtractor={item => item.id} 
       ListHeaderComponent={() => <RepositoryInfo repository={repository}/>}
       onEndReached={onEndReach}    
