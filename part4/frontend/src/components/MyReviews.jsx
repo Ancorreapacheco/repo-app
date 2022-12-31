@@ -3,6 +3,9 @@ import React from 'react'
 import { useQuery } from '@apollo/client'
 import { ME } from '../graphql/queries'
 import ReviewItemCard from './ReviewItemCard'
+import useDeleteReview from '../hooks/useDeleteReview'
+
+
 
 const styles = StyleSheet.create({  
   separator:{
@@ -10,7 +13,12 @@ const styles = StyleSheet.create({
   }
 })
 
+
+
 const MyReviews = () => {
+
+  const [deleteReview] = useDeleteReview()
+  
 
   const { data: user, loading } = useQuery(ME,{
     fetchPolicy:'cache-and-network',
@@ -18,16 +26,12 @@ const MyReviews = () => {
       includeReviews:true
     }
   })
-
-  console.log(user)
+ 
 
   if(loading){
     return <Text> Cargando Datos</Text>
   }
 
-  /* if(user?.reviews.edges.length === 0){
-    return <Text> No hay reviews disponibles </Text>
-  } */
 
   const reviewsNodes = user
     ? user.me.reviews.edges.map((node) => node.node)
@@ -40,12 +44,14 @@ const MyReviews = () => {
   const ItemSeparator = () => <View style={styles.separator}/>
 
   return (    
-    <FlatList
-      data={reviewsNodesM}      
-      ItemSeparatorComponent={ItemSeparator}
-      renderItem= {ReviewItemCard}
-      keyExtractor={item => item.id} 
-    />   
+
+      <FlatList
+        data={reviewsNodesM}      
+        ItemSeparatorComponent={ItemSeparator}
+        renderItem= {({item}) => <ReviewItemCard item={item} deleteReview={deleteReview}/>}
+        keyExtractor={item => item.id}            
+      />   
+        
   )
 }
 

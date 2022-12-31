@@ -34,8 +34,10 @@ query getCurrentUser($includeReviews: Boolean = false) {
           rating
           text
           repository {
+            id
             ownerName
             name
+            url
           }
           
         }

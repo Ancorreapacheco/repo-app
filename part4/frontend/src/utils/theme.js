@@ -8,7 +8,8 @@ const theme = {
     secundary: '#24292e',
     white: '#ffffff',
     background: '#e1e4e8',
-    btn: '#0366d6'
+    btn: '#0366d6',
+    btnDelete: '#a31418'
     
   },
   fontSizes: {
